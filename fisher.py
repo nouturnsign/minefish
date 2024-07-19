@@ -9,6 +9,8 @@ from termcolor import colored
 
 LAST_HIT_TIMEOUT = 60
 MATCH_THRESHOLD = 0.9
+DETECT_SLEEP_SECONDS = 3
+RECAST_SLEEP_SECONDS = 0.5
 
 def get_time_string(current_time):
     return time.strftime("%H:%M:%S", time.localtime(current_time))
@@ -30,10 +32,10 @@ def main():
             result = cv2.matchTemplate(needle, haystack, cv2.TM_CCOEFF_NORMED)
             if np.any(result > MATCH_THRESHOLD):
                 pyautogui.rightClick()
-                time.sleep(0.1)
+                time.sleep(RECAST_SLEEP_SECONDS)
                 pyautogui.rightClick()
                 print(get_time_string(current_time), colored("Detected", "green"))
-                time.sleep(2)
+                time.sleep(DETECT_SLEEP_SECONDS)
                 last_hit = current_time
                 indicate = True
             else:
